@@ -4,6 +4,108 @@ This example demonstrates how to implement scrollytelling in Observable Framewor
 
 <style>
 
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .scroll-container {
+            position: relative;
+        }
+        .scroll-info {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .scroll-section {
+            height: 100vh;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        .visible {
+            background-color: lightblue;
+        }
+
+</style>
+
+<section class="scroll-container">
+        <div class="scroll-info">Scroll Info</div>
+        <div class="scroll-section" data-step="1">TOTO</div>
+        <div class="scroll-section" data-step="2">STEP 2</div>
+        <div class="scroll-section" data-step="3">STEP 3</div>
+        <div class="scroll-section" data-step="4">STEP 4</div>
+</section>
+
+
+## Test
+
+<section class="scroll-container">
+        <div class="scroll-info">Scroll Info</div>
+        <div class="scroll-section" data-step="1">TOTO</div>
+        <div class="scroll-section" data-step="2">STEP 2</div>
+        <div class="scroll-section" data-step="3">STEP 3</div>
+        <div class="scroll-section" data-step="4">STEP 4</div>
+</section>
+
+
+
+
+const info = document.querySelector(".scroll-info");
+const targets = document.querySelectorAll(".scroll-section");
+
+const observer = new IntersectionObserver((entries) => {
+  for (const target of Array.from(targets).reverse()) {
+    const rect = target.getBoundingClientRect();
+    if (rect.top < innerHeight / 2) {
+      info.textContent = target.dataset.step;
+      info.className = `scroll-info scroll-info--step-${target.dataset.step}`;
+      return;
+    }
+  }
+  info.className = "scroll-info";
+  info.textContent = "0";
+}, {
+  rootMargin: "-50% 0% -50% 0%"
+});
+
+for (const target of targets) observer.observe(target);
+
+invalidation.then(() => observer.disconnect());
+
+
+```js 
+document.addEventListener('DOMContentLoaded', () => {
+            const options = {
+                root: null,
+                threshold: 0.5
+            };
+
+            const callback = (entries, observer) => {
+                entries.forEach(entry => {
+                    const step = entry.target.getAttribute('data-step');
+                    const info = document.querySelector('.scroll-info');
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        info.textContent = `Currently viewing: STEP ${step}`;
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(callback, options);
+
+            document.querySelectorAll('.scroll-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+```
+
+
+
+
 .scroll-container {
   position: relative;
   margin: 1rem auto;
@@ -52,24 +154,16 @@ This example demonstrates how to implement scrollytelling in Observable Framewor
   box-sizing: border-box;
 }
 
-</style>
-
-<section class="scroll-container">
-  <div class="scroll-info"></div>
-  <div class="scroll-section" data-step="1">
-    <div>
-      STEP 1
-    </div>
-  </div>
-  <div class="scroll-section" data-step="2">STEP 2</div>
-  <div class="scroll-section" data-step="3">STEP 3</div>
-  <div class="scroll-section" data-step="4">STEP 4</div>
-</section>
 
 
 
 
-```js echo
+
+
+
+
+
+
 const info = document.querySelector(".scroll-info");
 const targets = document.querySelectorAll(".scroll-section");
 
@@ -91,4 +185,3 @@ const observer = new IntersectionObserver((entries) => {
 for (const target of targets) observer.observe(target);
 
 invalidation.then(() => observer.disconnect());
-```
