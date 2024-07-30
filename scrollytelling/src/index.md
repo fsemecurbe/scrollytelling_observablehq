@@ -1,187 +1,68 @@
+---
+style: custom-style.css
+---
+
+
 # Scrollytelling with IntersectionObserver
 
-This example demonstrates how to implement scrollytelling in Observable Framework using `IntersectionObserver` and `position: sticky`.
 
-<style>
 
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .scroll-container {
-            position: relative;
-        }
-        .scroll-info {
-            position: sticky;
-            top: 0;
-            background: #fff;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-        .scroll-section {
-            height: 100vh;
-            padding: 20px;
-            border: 1px solid #ccc;
-            margin: 20px 0;
-        }
-        .visible {
-            background-color: lightblue;
-        }
+### Premier scrolling
+<section class="scroll-container">
+  <div class="scroll-info"></div>
+  <div class="scroll-section" data-step="1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sollicitudin consequat leo ac vestibulum. Aenean eget turpis in arcu pharetra viverra non eget erat. Donec scelerisque dui eu sapien tempor tincidunt. Ut a ante luctus, efficitur tellus at, feugiat arcu. Vestibulum eget turpis faucibus, fringilla urna non, dapibus metus. Sed sollicitudin vehicula cursus. Pellentesque rhoncus a urna ut tincidunt. Nunc sit amet gravida erat, ac ultricies tortor. Nam pretium vel tellus quis scelerisque. Nam quam purus, mattis nec metus placerat, malesuada aliquam est. Nulla congue ex velit, porta volutpat nisl venenatis semper. Nunc et elit varius, gravida lacus vel, venenatis libero. Suspendisse vulputate sapien quam, et eleifend neque dignissim quis. Duis eu interdum ex.</div>
+  <div class="scroll-section" data-step="2">Morbi venenatis, justo vel tincidunt bibendum, ex libero efficitur leo, sit amet maximus metus tortor in enim. Suspendisse eros ex, convallis ut mattis in, venenatis sed mi. Maecenas hendrerit dui convallis, rutrum elit et, lobortis mi. In in elit rutrum lacus elementum suscipit. Vestibulum lacinia augue eu diam ultrices venenatis. Nunc gravida nulla eget quam elementum feugiat. Duis ac volutpat nulla, sed venenatis urna. Phasellus tincidunt nibh imperdiet nisl vestibulum interdum. Etiam vitae maximus tortor. Mauris efficitur accumsan mauris ac bibendum. Nunc sit amet justo id nibh pretium aliquam. Maecenas libero erat, posuere ut est at, imperdiet ultrices urna.</div>
+  <div class="scroll-section" data-step="3">Aenean consectetur ex dolor, nec semper velit dictum sagittis. Quisque sed turpis imperdiet, tincidunt arcu ut, condimentum lorem. Suspendisse dapibus mauris nec libero laoreet cursus. Phasellus ac dictum risus. Donec varius semper enim a feugiat. Aenean auctor enim sit amet risus facilisis semper. Nullam aliquet sapien vitae sodales posuere. Maecenas dolor nulla, pretium at turpis eget, lobortis gravida sapien. Donec in mi rutrum, condimentum elit in, viverra augue. Vestibulum sed ipsum eget purus dictum congue. Aenean pulvinar ligula sapien. Donec lobortis orci in purus accumsan, nec interdum nisl vehicula. Proin vitae nunc turpis. Aenean metus nibh, varius nec iaculis nec, lobortis a neque. Suspendisse mi elit, commodo et orci id, consectetur fermentum massa. Cras molestie, diam ut bibendum finibus, ex est aliquet eros, nec fringilla risus libero non diam.</div>
+  <div class="scroll-section" data-step="4">Nullam pellentesque malesuada sem ut porta. Duis porta eu sem at tempor. Aliquam erat volutpat. Sed convallis odio ipsum, sed molestie purus efficitur sed. Vestibulum sit amet luctus nibh. Aenean porttitor venenatis pretium. Proin aliquet libero vel ante consectetur viverra. Nulla venenatis elit magna, vel egestas enim euismod vitae.</div>
+</section>
 
-</style>
+### Deuxième scrolling 
 
 <section class="scroll-container">
-        <div class="scroll-info">Scroll Info</div>
-        <div class="scroll-section" data-step="1">TOTO</div>
-        <div class="scroll-section" data-step="2">STEP 2</div>
-        <div class="scroll-section" data-step="3">STEP 3</div>
-        <div class="scroll-section" data-step="4">STEP 4</div>
+  <div class="scroll-info"></div>
+  <div class="scroll-section" data-step="1">STEP 2.1</div>
+  <div class="scroll-section" data-step="2">STEP 2.2</div>
+  <div class="scroll-section" data-step="3">STEP 2.3</div>
+  <div class="scroll-section" data-step="4">STEP 2.4</div>
 </section>
 
 
-## Test
-
-<section class="scroll-container">
-        <div class="scroll-info">Scroll Info</div>
-        <div class="scroll-section" data-step="1">TOTO</div>
-        <div class="scroll-section" data-step="2">STEP 2</div>
-        <div class="scroll-section" data-step="3">STEP 3</div>
-        <div class="scroll-section" data-step="4">STEP 4</div>
-</section>
+```js 
+const scrollcontainers = document.querySelectorAll(".scroll-container");
 
 
-
-
-const info = document.querySelector(".scroll-info");
-const targets = document.querySelectorAll(".scroll-section");
-
-const observer = new IntersectionObserver((entries) => {
+for (const scrollcontainer of scrollcontainers) {
+  
+  const info = scrollcontainer.querySelector(".scroll-info");
+  const targets = scrollcontainer.querySelectorAll(".scroll-section");
+  
+  const observer = new IntersectionObserver((entries) => {
   for (const target of Array.from(targets).reverse()) {
     const rect = target.getBoundingClientRect();
     if (rect.top < innerHeight / 2) {
       info.textContent = target.dataset.step;
-      info.className = `scroll-info scroll-info--step-${target.dataset.step}`;
+      info.classList.add('visible');
       return;
     }
   }
   info.className = "scroll-info";
   info.textContent = "0";
+  info.classList.remove('visible');
+
 }, {
   rootMargin: "-50% 0% -50% 0%"
 });
 
-for (const target of targets) observer.observe(target);
 
-invalidation.then(() => observer.disconnect());
+  for (const target of targets) observer.observe(target);}
 
 
-```js 
-document.addEventListener('DOMContentLoaded', () => {
-            const options = {
-                root: null,
-                threshold: 0.5
-            };
 
-            const callback = (entries, observer) => {
-                entries.forEach(entry => {
-                    const step = entry.target.getAttribute('data-step');
-                    const info = document.querySelector('.scroll-info');
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        info.textContent = `Currently viewing: STEP ${step}`;
-                    } else {
-                        entry.target.classList.remove('visible');
-                    }
-                });
-            };
 
-            const observer = new IntersectionObserver(callback, options);
 
-            document.querySelectorAll('.scroll-section').forEach(section => {
-                observer.observe(section);
-            });
-        });
+
 
 ```
 
 
 
-
-.scroll-container {
-  position: relative;
-  margin: 1rem auto;
-  font-family: var(--sans-serif);
-}
-
-.scroll-info {
-  position: sticky;
-  aspect-ratio: 16 / 9;
-  top: calc((100% - 9 / 16 * 100vw) / 2);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 64px;
-  transition: ease background-color 0.5s;
-  background-color: var(--theme-background-alt);
-}
-
-.scroll-info--step-1 {
-  background-color: #4269d0;
-}
-
-.scroll-info--step-2 {
-  background-color: #efb118;
-}
-
-.scroll-info--step-3 {
-  background-color: #ff725c;
-}
-
-.scroll-info--step-4 {
-  background-color: #6cc5b0;
-}
-
-.scroll-section {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  margin: 1rem 0;
-  display: flex;
-  align-items: start;
-  justify-content: center;
-  border: solid 1px var(--theme-foreground-focus);
-  background: color-mix(in srgb, var(--theme-foreground-focus) 5%, transparent);
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-
-
-
-
-
-
-
-
-
-
-const info = document.querySelector(".scroll-info");
-const targets = document.querySelectorAll(".scroll-section");
-
-const observer = new IntersectionObserver((entries) => {
-  for (const target of Array.from(targets).reverse()) {
-    const rect = target.getBoundingClientRect();
-    if (rect.top < innerHeight / 2) {
-      info.textContent = target.dataset.step;
-      info.className = `scroll-info scroll-info--step-${target.dataset.step}`;
-      return;
-    }
-  }
-  info.className = "scroll-info";
-  info.textContent = "0";
-}, {
-  rootMargin: "-50% 0% -50% 0%"
-});
-
-for (const target of targets) observer.observe(target);
-
-invalidation.then(() => observer.disconnect());
