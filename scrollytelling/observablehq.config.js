@@ -1,37 +1,44 @@
-// See https://observablehq.com/framework/config for documentation.
+import MarkdownItContainer from "markdown-it-container";
+
 export default {
-  // The project’s title; used in the sidebar and webpage titles.
   title: "Scrollytelling",
 
-  // The pages and sections in the sidebar. If you don’t specify this option,
-  // all pages will be listed in alphabetical order. Listing pages explicitly
-  // lets you organize them into sections and have unlisted pages.
-  // pages: [
-  //   {
-  //     name: "Examples",
-  //     pages: [
-  //       {name: "Dashboard", path: "/example-dashboard"},
-  //       {name: "Report", path: "/example-report"}
-  //     ]
-  //   }
-  // ],
-
-  // Content to add to the head of the page, e.g. for a favicon:
   head: '<link rel="icon" href="observable.png" type="image/png" sizes="32x32">',
 
-  // The path to the source root.
   root: "src",
 
-  // Some additional configuration options and their defaults:
-  // theme: "default", // try "light", "dark", "slate", etc.
-  // header: "", // what to show in the header (HTML)
-  // footer: "Built with Observable.", // what to show in the footer (HTML)
-  // sidebar: true, // whether to show the sidebar
-  // toc: true, // whether to show the table of contents
-  // pager: true, // whether to show previous & next links in the footer
-  // output: "dist", // path to the output root for build
-  // search: true, // activate search
-  // linkify: true, // convert URLs in Markdown to links
-  // typographer: false, // smart quotes and other typographic improvements
-  // cleanUrls: true, // drop .html from URLs
+  markdownIt: (md) =>
+    md
+      .use(MarkdownItContainer, "card") // ::: card
+      .use(MarkdownItContainer, "tip") // ::: tip
+      .use(MarkdownItContainer, "warning") // ::: warning
+      .use(MarkdownItContainer, 'scroll-container', {
+
+        render: function (tokens, idx) {
+          var m = tokens[idx].info.trim().match(/^scroll-container\s+(.*)$/);
+          if (tokens[idx].nesting === 1) {
+            return '<section class="scroll-container">\n <div class="scroll-info"></div>\n';
+          } else {
+            return '</section>\n';
+          }
+        }
+    
+    })
+    .use(MarkdownItContainer, 'scroll-section', {
+
+      render: function (tokens, idx) {
+        var m = tokens[idx].info.trim().match(/^scroll-section\s+(.*)$/);
+        if (tokens[idx].nesting === 1) {
+          return '<div class="scroll-section" data-step='+ md.utils.escapeHtml(m[1]) + '>\n ';
+        } else {
+          return '</div>\n';
+        }
+      }
+  
+  })
+
+
+
+
+
 };
