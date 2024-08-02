@@ -24,7 +24,12 @@
   align-items: center;
   position: relative;
   aspect-ratio: 16 / 9;
-  margin: 0 auto 2rem auto;
-			color: #882424;
-			background-color: rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  border: thick double #32a1ce;
+  background: rgba(255, 122, 89, .5);
+  padding: 1rem;
+  box-sizing: border-box;
 }
