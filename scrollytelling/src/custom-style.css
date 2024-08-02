@@ -1,35 +1,29 @@
 .scroll-container {
   position: relative;
-
-  background-color: #f3f3f3;
-  padding: 1rem;
+  margin: 1rem auto;
+  font-family: var(--sans-serif);
 }
-
 .scroll-info {
   position: sticky;
-  aspect-ratio: 3 / 2;
-  top: calc((100% - 9 / 16 * 100vw) / 1.2);
+  aspect-ratio: 16 / 9;
+  top: calc((100% - 9 / 16 * 100vw) / 2);
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 64px;
-  
+  transition: ease background-color 0.5s;
+  background-color: var(--theme-background-alt);
 }
-
 .scroll-section {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
   aspect-ratio: 16 / 9;
   margin: 1rem 0;
   display: flex;
   align-items: start;
   justify-content: center;
-  border: thick double #32a1ce;
-  background: rgba(255, 122, 89, .5);
+  border: solid 1px var(--theme-foreground-focus);
+  background: color-mix(in srgb, var(--theme-foreground-focus) 5%, transparent);
   padding: 1rem;
   box-sizing: border-box;
 }
