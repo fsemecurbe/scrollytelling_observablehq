@@ -36,7 +36,7 @@ span.inner {
   border: solid;
   background: black;
   color: white;
-  transparence: 0.8;
+  opacity: 0.8;
   border-radius: 25px;
 }
 
