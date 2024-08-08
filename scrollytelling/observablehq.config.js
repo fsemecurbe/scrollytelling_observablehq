@@ -29,9 +29,9 @@ export default {
       render: function (tokens, idx) {
         var m = tokens[idx].info.trim().match(/^scroll-section\s+(.*)$/);
         if (tokens[idx].nesting === 1) {
-          return '<div class="scroll-section" data-step='+ md.utils.escapeHtml(m[1]) + '>\n';
+          return '<div class="scroll-section" data-step='+ md.utils.escapeHtml(m[1]) + '>\n <span  class="inner">\n';
         } else {
-          return '\n</div>\n';
+          return '\n</span>\n</div>\n';
         }
 
       },

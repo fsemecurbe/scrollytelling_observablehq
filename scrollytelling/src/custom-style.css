@@ -27,3 +27,16 @@
   padding: 1rem;
   box-sizing: border-box;
 }
+
+span.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: solid;
+  background: black;
+  color: white;
+  transparence: 0.8;
+  border-radius: 25px;
+}
+
