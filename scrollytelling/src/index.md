@@ -7,7 +7,42 @@ scrolling(graphs)
 
 
 ```js 
-const echart1 = html`<div style="width: 600px; height:400px;"></div>`
+// graphique initial
+function Likert(responses) {
+  const map = new Map(responses);
+  return {
+    order: Array.from(map.keys()),
+    offset(I, X1, X2, Z) {
+      for (const stacks of I) {
+        for (const stack of stacks) {
+          const k = d3.sum(stack, (i) => (X2[i] - X1[i]) * (1 - map.get(Z[i]))) / 2;
+          for (const i of stack) {
+            X1[i] -= k;
+            X2[i] -= k;
+          }
+        }
+      }
+    }
+  };
+}
+
+const survey = FileAttachment("data/survey.json").json()
+
+const likert = Likert([
+  ["Strongly Disagree", -1],
+  ["Disagree", -1],
+  ["Neutral", 0],
+  ["Agree", 1],
+  ["Strongly Agree", 1]
+])
+
+```
+
+
+
+```js 
+//ici je construit mon graph echart
+const echart1 = html`<div style="width: ${width}px; height:400px;"></div>`
 
 const myChart = echarts.init(echart1);
 myChart.setOption({
@@ -116,8 +151,8 @@ myChart.setOption({
 
 ```js 
 // ici on positionne l'ensemble des graphiques
-const graphs= {'0': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(), 
-               'francois': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
+const graphs= {'graphiqueinitial': Plot.plot({x: {tickFormat: Math.abs},color: {domain: likert.order, scheme: "RdBu", legend: true},  marks: [Plot.barX(survey, Plot.groupZ({x: "count"}, {fy: "Question", fill: "Response", ...likert})), Plot.ruleX([0]) ]}), 
+               'premiergraphique': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
                '2': Plot.barY([9, 4, 8, 1, 11, 3, 4, 2, 7, 5]).plot(),
                '3': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
                '4': Plot.barY([1, 2, 4, 8, 16, 8, 4, 2, 1, 0]).plot(),
@@ -125,7 +160,7 @@ const graphs= {'0': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }
                '6': Plot.barY([1, 2, 4, 8, 16, 8, 4, 2, 1, 0]).plot(),
                '7': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
                '8': Plot.barY([0.5, 1.5, 0.5, 0, -0.5, -1.5, -0.5, 0, 0.5, 1.5]).plot(),
-               'test_svg': await FileAttachment("images/carte.svg").image({style: "width: 900px;"}),
+               'test_svg': await FileAttachment("images/carte.svg").image({style: `width: ${width/2}px;`}),
                'test_echart':  echart1,
 }
 ```
@@ -146,7 +181,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sollicitudin
 
 ::: scroll-container 
 
-~~~ scroll-section francois
+~~~ scroll-section premiergraphique
    Pellentesque rhoncus a urna ut tincidunt. Nunc sit amet gravida erat, ac ultricies tortor. Nam pretium vel tellus quis scelerisque. Nam quam purus, mattis nec metus placerat, malesuada aliquam est. Nulla congue ex velit, porta volutpat nisl venenatis semper. Nunc et elit varius, gravida lacus vel, venenatis libero. Suspendisse vulputate sapien quam, et eleifend neque dignissim quis. Duis eu interdum ex.
 ~~~ 
 
@@ -155,7 +190,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sollicitudin
 ~~~ 
 
 ~~~ scroll-section 2
- Donec lobortis orci in purus accumsan, nec interdum nisl vehicula. Proin vitae nunc turpis. Aenean metus nibh, varius nec iaculis nec, lobortis a neque. Suspendisse mi elit, commodo et orci id, consectetur fermentum massa. Cras molestie, diam ut bibendum finibus, ex est aliquet eros, nec fringilla risus libero non diam.
+ Je commente deux fois le même graphique
 ~~~  
 
 
@@ -168,7 +203,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sollicitudin
 ~~~
 
 ~~~ scroll-section test_echart
-  Ici, j'ajoute un graphique ECharts. Pour l'instant, j'ai un problème avec l'interaction, mais cela devrait être possible de le résoudre.
+  Ici, j'ajoute un graphique ECharts. 
 ~~~
 
 :::
@@ -179,8 +214,8 @@ Donec lobortis orci in purus accumsan, nec interdum nisl vehicula. Proin vitae n
 
 ::: scroll-container 
 
-~~~ scroll-section 5
-   Pellentesque rhoncus a urna ut tincidunt. Nunc sit amet gravida erat, ac ultricies tortor. Nam pretium vel tellus quis scelerisque. Nam quam purus, mattis nec metus placerat, malesuada aliquam est. Nulla congue ex velit, porta volutpat nisl venenatis semper. Nunc et elit varius, gravida lacus vel, venenatis libero. Suspendisse vulputate sapien quam, et eleifend neque dignissim quis. Duis eu interdum ex.
+~~~ scroll-section graphiqueinitial
+   Ici j'ai rajouté un très joli graphique réalisé avec observable plot
 ~~~ 
 
 ~~~ scroll-section 6

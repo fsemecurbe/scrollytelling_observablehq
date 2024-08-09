@@ -32,6 +32,7 @@ h1 {
   background: color-mix(in srgb, var(--theme-foreground-focus) 5%, transparent);
   padding: 1rem;
   box-sizing: border-box;
+  pointer-events: none;
 }
 
 span.inner {
