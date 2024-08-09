@@ -6,6 +6,113 @@ scrolling(graphs)
 # Examples of scrolling with observablehq framework
 
 
+```js 
+const echart1 = html`<div style="width: 600px; height:400px;"></div>`
+
+const myChart = echarts.init(echart1);
+myChart.setOption({
+  title: {
+    text: 'Stacked Area Chart'
+  },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+      label: {
+        backgroundColor: '#6a7985'
+      }
+    }
+  },
+  legend: {
+    data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+  },
+  toolbox: {
+    feature: {
+      saveAsImage: {}
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'category',
+      boundaryGap: false,
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
+  series: [
+    {
+      name: 'Email',
+      type: 'line',
+      stack: 'Total',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      data: [120, 132, 101, 134, 90, 230, 210]
+    },
+    {
+      name: 'Union Ads',
+      type: 'line',
+      stack: 'Total',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      data: [220, 182, 191, 234, 290, 330, 310]
+    },
+    {
+      name: 'Video Ads',
+      type: 'line',
+      stack: 'Total',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      data: [150, 232, 201, 154, 190, 330, 410]
+    },
+    {
+      name: 'Direct',
+      type: 'line',
+      stack: 'Total',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      data: [320, 332, 301, 334, 390, 330, 320]
+    },
+    {
+      name: 'Search Engine',
+      type: 'line',
+      stack: 'Total',
+      label: {
+        show: true,
+        position: 'top'
+      },
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      data: [820, 932, 901, 934, 1290, 1330, 1320]
+    }
+  ]
+
+})
+
+
+```
+
+
+
 
 ```js 
 // ici on positionne l'ensemble des graphiques
@@ -17,11 +124,14 @@ const graphs= {'0': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }
                '5': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
                '6': Plot.barY([1, 2, 4, 8, 16, 8, 4, 2, 1, 0]).plot(),
                '7': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
-               '8': Plot.barY([0.5, 1.5, 0.5, 0, -0.5, -1.5, -0.5, 0, 0.5, 1.5]).plot()
+               '8': Plot.barY([0.5, 1.5, 0.5, 0, -0.5, -1.5, -0.5, 0, 0.5, 1.5]).plot(),
+               'test_svg': await FileAttachment("images/carte.svg").image({style: "width: 900px;"}),
+               'test_echart':  echart1,
 }
 ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sollicitudin consequat leo ac vestibulum. Aenean eget turpis in arcu pharetra viverra non eget erat. Donec scelerisque dui eu sapien tempor tincidunt. Ut a ante luctus, efficitur tellus at, feugiat arcu. Vestibulum eget turpis faucibus, fringilla urna non, dapibus metus. Sed sollicitudin vehicula cursus. 
+
 
 
 
@@ -49,16 +159,16 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sollicitudin
 ~~~  
 
 
-~~~ scroll-section 3
- Donec lobortis orci in purus accumsan, nec interdum nisl vehicula. Proin vitae nunc turpis. Aenean metus nibh, varius nec iaculis nec, lobortis a neque. Suspendisse mi elit, commodo et orci id, consectetur fermentum massa. Cras molestie, diam ut bibendum finibus, ex est aliquet eros, nec fringilla risus libero non diam.
+~~~ scroll-section test_svg
+ Ici j'ai rajouté une image svg. 
 ~~~
   
 ~~~ scroll-section 4
   Nullam pellentesque malesuada sem ut porta. Duis porta eu sem at tempor. Aliquam erat volutpat. Sed convallis odio ipsum, sed molestie purus efficitur sed. Vestibulum sit amet luctus nibh. Aenean porttitor venenatis pretium. Proin aliquet libero vel ante consectetur viverra. Nulla venenatis elit magna, vel egestas enim euismod vitae.
 ~~~
 
-~~~ scroll-section 4
-  hsdoqfhqsdf dsfoi yhqsdfqsd liu oqsdf Aenean porttitor venenatis pretium. Proin aliquet libero vel ante consectetur viverra. Nulla venenatis elit magna, vel egestas enim euismod vitae
+~~~ scroll-section test_echart
+  Ici, j'ajoute un graphique ECharts. Pour l'instant, j'ai un problème avec l'interaction, mais cela devrait être possible de le résoudre.
 ~~~
 
 :::
