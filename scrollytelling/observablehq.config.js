@@ -17,7 +17,7 @@ export default {
         render: function (tokens, idx) {
           var m = tokens[idx].info.trim().match(/^scroll-container\s+(.*)$/);
           if (tokens[idx].nesting === 1) {
-            return '<section class="scroll-container">\n <div class="scroll-info"></div>\n <section class="scrolling">\n'';
+            return '<section class="scroll-container">\n <div class="scroll-info"></div>\n <section class="scrolling">\n';
           } else {
             return '</section>\n </section>\n';
           }
