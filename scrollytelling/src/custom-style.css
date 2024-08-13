@@ -1,17 +1,22 @@
 h1 {
   text-align: center;
+  font-family: 'freight-big-pro';
+  font-size: 101px;
+  font-weight: normal;
+  letter-spacing: -6.5px;
+  overflow-wrap: break-world;
 }
+
 
 .scrolling{
   width: 30%;
-  
   min-height: 1000px;
   display: flex;
   flex-direction: column;
 }
 
 .scroll-container {
-  width: 60%;
+  width: 70%;
   position: relative;
   margin: 1rem auto;
   font-family: var(--sans-serif);
@@ -20,20 +25,20 @@ h1 {
 
 .scroll-info {
   position: sticky;
-  
+  /*width: auto;*/
   aspect-ratio: 2;
-  top: calc((100% - 9 / 16 * 100vw) / 3);
-  margin: 0 auto;
+  top: calc((100% - 1 / 2 * 100vw) / 3);
+  margin: 0;
   display: flex;
   align-items: left;
-  justify-content: center;
+  justify-content: right;
   font-size: 64px;
   transition: ease background-color 0.5s;
   
 }
 .scroll-section {
   position: relative;
-  aspect-ratio: 3 / 9;
+  aspect-ratio: 1/ 4;
   height: 5000;
   margin: 0;
   display: flex;
@@ -48,9 +53,9 @@ h1 {
 
 span.inner {
   position: absolute;
-  left: 15%;
-  right: 10%;
-  top: 45%;
+  left: 1%;
+  right: 1%;
+  top: 50%;
   transform: translate(-50%, -50%);
   border: solid;
   background: black;

@@ -42,7 +42,7 @@ const likert = Likert([
 
 ```js 
 //ici je construit mon graph echart
-const echart1 = html`<div style="width: ${width}px; height:400px;"></div>`
+const echart1 = html`<div style="width: ${width/2}px; height:400px;"></div>`
 
 const myChart = echarts.init(echart1);
 myChart.setOption({
@@ -154,13 +154,13 @@ myChart.setOption({
 const graphs= {'graphiqueinitial': Plot.plot({x: {tickFormat: Math.abs},color: {domain: likert.order, scheme: "RdBu", legend: true},  marks: [Plot.barX(survey, Plot.groupZ({x: "count"}, {fy: "Question", fill: "Response", ...likert})), Plot.ruleX([0]) ]}), 
                'premiergraphique': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
                '2': Plot.barY([9, 4, 8, 1, 11, 3, 4, 2, 7, 5]).plot(),
-               '3': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
+               '3': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot({width: width*2}),
                '4': Plot.barY([1, 2, 4, 8, 16, 8, 4, 2, 1, 0]).plot(),
                '5': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
                '6': Plot.barY([1, 2, 4, 8, 16, 8, 4, 2, 1, 0]).plot(),
                '7': Plot.dot({ length: 100 }, { x: Math.random, y: Math.random }).plot(),
                '8': Plot.barY([0.5, 1.5, 0.5, 0, -0.5, -1.5, -0.5, 0, 0.5, 1.5]).plot(),
-               'test_svg': await FileAttachment("images/carte.svg").image({style: `width: ${width/2}px;`}),
+               'test_svg': await FileAttachment("images/carte.svg").image(),
                'test_echart':  echart1,
 }
 ```

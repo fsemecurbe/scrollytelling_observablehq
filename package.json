@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@observablehq/runtime": "^5.9.9"
+  }
+}
